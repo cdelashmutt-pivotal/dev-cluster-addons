@@ -3,7 +3,7 @@ This package contains examples of extra manifests you could apply via kapp-contr
 
 ## Examples
 ### Existing Package
-The [config/contour.yaml](config/contour.yaml) file gives an example of installing another kapp-controller package from within this package.  This allows you to "nest" installs or effectively create a "package of packages" that can be installed via one package install.
+The [config/fluent-bit.yaml](config/fluent-bit.yaml) file gives an example of installing another kapp-controller package from within this package.  This allows you to "nest" installs or effectively create a "package of packages" that can be installed via one package install.  In this case we're installing fluent-bit from the tanzu-standard registry that is automatically added when a cluster is provisioned by Tanzu Mission Control. 
 
 ### Helm Charts
 

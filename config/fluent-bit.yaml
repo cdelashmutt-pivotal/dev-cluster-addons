@@ -1,0 +1,49 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: fluent-bit
+  namespace: dev-cluster-addons
+  annotations:
+    kapp.k14s.io/change-group: fluent-bit
+    kapp.k14s.io/change-rule.serviceaccount: "delete before deleting serviceaccount"
+spec:
+  serviceAccountName: dev-cluster-addons-sa
+  packageRef:
+    refName: fluent-bit.tanzu.vmware.com
+    versionSelection:
+      constraints: ">=1.8.0 <1.9.0"
+      prereleases: {}
+  values:
+  - secretRef:
+      name: fluentbit-values
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: fluentbit-values
+  namespace: dev-cluster-addons
+stringData:
+  #@yaml/text-templated-strings
+  data-values: |
+    fluent_bit:
+      config:
+        filters: |
+          [FILTER]
+            Name                kubernetes
+            Match               kube.*
+            Kube_URL            https://kubernetes.default.svc:443
+            Kube_CA_File        /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            Kube_Token_File     /var/run/secrets/kubernetes.io/serviceaccount/token
+            Kube_Tag_Prefix     kube.var.log.containers.
+            Merge_Log           On
+            Merge_Log_Key       log_processed
+            K8S-Logging.Parser  On
+            K8S-Logging.Exclude On
+
+          [FILTER]
+            Name                modify
+            Match               *
+            Rename message text
+            Add cluster (@= data.values.cluster_name @)
