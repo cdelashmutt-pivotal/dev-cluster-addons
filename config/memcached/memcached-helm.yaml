@@ -25,6 +25,7 @@ spec:
 
   template:
   - helmTemplate:
+      namespace: memcached
       valuesFrom:
       - secretRef:
           name: memcached-values
