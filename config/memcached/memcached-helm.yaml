@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: memcached-values
+  namespace: dev-cluster-addons
+stringData:
+  values.yaml: |
+    ---
+    podAnnotations:
+      value-from-secret: "kapp-controller packages rock!"
+---
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: memcached
+  namespace: dev-cluster-addons
+spec:
+  serviceAccountName: dev-cluster-addons-sa
+  fetch:
+  - helmChart:
+      name: memcached
+      repository:
+        url: https://charts.bitnami.com/bitnami
+
+  template:
+  - helmTemplate:
+      valuesFrom:
+      - secretRef:
+          name: memcached-values
+
+  deploy:
+  - kapp: {}
