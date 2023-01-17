@@ -4,10 +4,6 @@ apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageInstall
 metadata:
   name: fluent-bit
-  namespace: dev-cluster-addons
-  annotations:
-    kapp.k14s.io/change-group: fluent-bit
-    kapp.k14s.io/change-rule.serviceaccount: "delete before deleting serviceaccount"
 spec:
   serviceAccountName: dev-cluster-addons-sa
   packageRef:
@@ -23,7 +19,6 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: fluentbit-values
-  namespace: dev-cluster-addons
 stringData:
   #@yaml/text-templated-strings
   data-values: |
