@@ -10,11 +10,31 @@ stringData:
     podAnnotations:
       value-from-secret: "kapp-controller packages rock!"
 ---
+#! Creating a namespace for the memcached pods to live in
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: memcached
+  annotations:
+    kapp.k14s.io/change-group: memcached
+    #! We want to make sure we don't delete the service account used by this 
+    #! package install before we delete the PackageInstall object itself, 
+    #! otherwise the deletion will hang.  Check out the "package-basics" 
+    #! directory for the service account creation
+    kapp.k14s.io/change-rule.serviceaccount: delete before deleting serviceaccount
+---
 apiVersion: kappctrl.k14s.io/v1alpha1
 kind: App
 metadata:
   name: memcached
   namespace: dev-cluster-addons-install
+  annotations:
+    kapp.k14s.io/change-group: memcached
+    #! We want to make sure we don't delete the service account used by this 
+    #! package install before we delete the PackageInstall object itself, 
+    #! otherwise the deletion will hang.  Check out the "package-basics" 
+    #! directory for the service account creation
+    kapp.k14s.io/change-rule.serviceaccount: delete before deleting serviceaccount
 spec:
   serviceAccountName: dev-cluster-addons-sa
   fetch:

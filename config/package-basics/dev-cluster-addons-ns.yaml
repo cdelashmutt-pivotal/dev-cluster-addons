@@ -4,4 +4,7 @@ kind: Namespace
 metadata:
   name: dev-cluster-addons-install
   annotations: 
+    #! Marks this object as part of a group of changes for the service account 
+    #! we'll use for installing more PackageInstalls and App objects.  This 
+    #! allows us to write change rules against it in other objects
     kapp.k14s.io/change-group: serviceaccount

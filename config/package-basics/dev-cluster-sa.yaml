@@ -4,7 +4,12 @@ metadata:
   name: dev-cluster-addons-sa-role
   namespace: dev-cluster-addons-install
   annotations: 
+    #! Marks this object as part of a group of changes for the service account 
+    #! we'll use for installing more PackageInstalls and App objects.  This 
+    #! allows us to write change rules against it in other objects
     kapp.k14s.io/change-group: serviceaccount
+#! This is _lazy_ and should be scaled back to just the objects any 
+#! PackageInstalls or Apps need to manage.
 rules:
 - apiGroups:
   - '*'
@@ -18,7 +23,10 @@ kind: ClusterRoleBinding
 metadata:
   name: dev-cluster-addons-sa-rolebinding
   namespace: dev-cluster-addons-install
-  annotations: 
+  annotations:
+    #! Marks this object as part of a group of changes for the service account 
+    #! we'll use for installing more PackageInstalls and App objects.  This 
+    #! allows us to write change rules against it in other objects 
     kapp.k14s.io/change-group: serviceaccount
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -27,12 +35,15 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: dev-cluster-addons-sa
-  namespace: dev-cluster-addons
+  namespace: dev-cluster-addons-install
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: dev-cluster-addons-sa
   namespace: dev-cluster-addons-install
-  annotations: 
+  annotations:
+    #! Marks this object as part of a group of changes for the service account 
+    #! we'll use for installing more PackageInstalls and App objects.  This 
+    #! allows us to write change rules against it in other objects 
     kapp.k14s.io/change-group: serviceaccount

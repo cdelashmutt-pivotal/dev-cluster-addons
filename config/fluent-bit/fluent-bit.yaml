@@ -5,7 +5,15 @@ kind: PackageInstall
 metadata:
   name: fluent-bit
   namespace: dev-cluster-addons-install
+  annotations:
+    kapp.k14s.io/change-group: fluent-bit
+    #! We want to make sure we don't delete the service account used by this 
+    #! package install before we delete the PackageInstall object itself, 
+    #! otherwise the deletion will hang.  Check out the "package-basics" 
+    #! directory for the service account creation
+    kapp.k14s.io/change-rule.serviceaccount: delete before deleting serviceaccount
 spec:
+  serviceAccountName: dev-cluster-addons-sa
   packageRef:
     refName: fluent-bit.tanzu.vmware.com
     versionSelection:
