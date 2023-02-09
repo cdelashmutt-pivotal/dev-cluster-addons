@@ -66,6 +66,7 @@ stringData:
     ---
     metadata:
       #@overlay/match missing_ok=True
+      #@overlay/match-child-defaults missing_ok=True
       annotations:
-        #@overlay/match missing_ok=True
         kapp.k14s.io/versioned: ""
+        kapp.k14s.io/num-versions=2
