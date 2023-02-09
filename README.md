@@ -10,7 +10,9 @@ Not following this procedure will likely get you into a situation where the Pack
 If you get into that situation for some reason, you can add the `noopDelete: true` value to the `spec` section for the nested PackageInstall and App objects, and then manually clean up anything those nested installs left behind before trying to install again.
 
 ### Existing Carvel Package
-The [config/fluent-bit/fluent-bit.yaml](config/fluent-bit/fluent-bit.yaml) file gives an example of installing another kapp-controller package from within this package.  This allows you to "nest" installs or effectively create a "package of packages" that can be installed via one package install.  In this case we're installing fluent-bit from the tanzu-standard registry that is automatically added when a cluster is provisioned by Tanzu Mission Control. 
+The [config/fluent-bit/fluent-bit.yaml](config/fluent-bit/fluent-bit.yaml) file gives an example of installing another kapp-controller package from within this package.  This allows you to "nest" installs or effectively create a "package of packages" that can be installed via one package install.  In this case we're installing fluent-bit from the tanzu-standard registry that is automatically added when a cluster is provisioned by Tanzu Mission Control.
+
+This example also shows how to apply an overlay to a package you are installing to change the manifests the package applies to the cluster.
 
 ### Helm Charts
 The [config/memcached/memcached-helm.yaml](config/memcached/memcached-helm.yaml) file gives an example of installing a Helm chart via kapp-controller.  This allows you to nest a packaged install that already uses Helm into this package, without having to try and reverse engineer it into a kapp-controller package directly.

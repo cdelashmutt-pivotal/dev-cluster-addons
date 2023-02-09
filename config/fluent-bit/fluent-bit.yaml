@@ -12,6 +12,7 @@ metadata:
     #! otherwise the deletion will hang.  Check out the "package-basics" 
     #! directory for the service account creation
     kapp.k14s.io/change-rule.serviceaccount: delete before deleting serviceaccount
+    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: add-configmap-versioning
 spec:
   serviceAccountName: dev-cluster-addons-sa
   packageRef:
@@ -51,3 +52,19 @@ stringData:
             Match               *
             Rename message text
             Add cluster (@= data.values.cluster_name @)
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: add-configmap-versioning
+  namespace: dev-cluster-addons-install
+stringData:
+  overlay: |
+    #@ load("@ytt:overlay", "overlay")
+
+    #@overlay/match by=overlay.subset({"kind":"ConfigMap", "metadata":{"name": "fluent-bit-config"}}), expects=1
+    ---
+    metadata:
+      #@overlay/match missing_ok=True
+      annotations:
+        kapp.k14s.io/versioned: ""
