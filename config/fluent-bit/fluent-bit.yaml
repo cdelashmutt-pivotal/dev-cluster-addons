@@ -59,12 +59,12 @@ metadata:
   name: add-configmap-versioning
   namespace: dev-cluster-addons-install
 stringData:
-  overlay: |
+  overlay.yaml: |
     #@ load("@ytt:overlay", "overlay")
 
     #@overlay/match by=overlay.subset({"kind":"ConfigMap", "metadata":{"name": "fluent-bit-config"}}), expects=1
     ---
     metadata:
-      #@overlay/match missing_ok=True
+      #@overlay/match-child-defaults missing_ok=True
       annotations:
         kapp.k14s.io/versioned: ""
