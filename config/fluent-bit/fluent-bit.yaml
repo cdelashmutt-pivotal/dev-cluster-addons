@@ -65,6 +65,7 @@ stringData:
     #@overlay/match by=overlay.subset({"kind":"ConfigMap", "metadata":{"name": "fluent-bit-config"}}), expects=1
     ---
     metadata:
-      #@overlay/match-child-defaults missing_ok=True
+      #@overlay/match missing_ok=True
       annotations:
+        #@overlay/match missing_ok=True
         kapp.k14s.io/versioned: ""
