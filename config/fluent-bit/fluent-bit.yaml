@@ -69,4 +69,4 @@ stringData:
       #@overlay/match-child-defaults missing_ok=True
       annotations:
         kapp.k14s.io/versioned: ""
-        kapp.k14s.io/num-versions=2
+        kapp.k14s.io/num-versions: 2
